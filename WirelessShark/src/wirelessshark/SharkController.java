@@ -35,7 +35,6 @@ public TextArea text;
         private void Start(ActionEvent event){
 
         s.start();
-        System.out.print("loay ");
     }
      @FXML
        private void Stop(ActionEvent event){

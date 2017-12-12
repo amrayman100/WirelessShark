@@ -63,7 +63,7 @@ public class WirelessShark extends Application {
                
         
         static int r = Pcap.findAllDevs(alldevs, errbuf);   
-         static PcapIf  device = alldevs.get(2);
+         static PcapIf  device = alldevs.get(4);
     @Override
     public void start(Stage primaryStage) throws Exception{
         
