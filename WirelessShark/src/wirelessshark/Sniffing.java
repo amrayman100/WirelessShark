@@ -79,7 +79,6 @@ import javafx.scene.control.TextArea;
  public class Sniffing extends Service {
   
         List<PcapIf> alldevs = new ArrayList<PcapIf>();
-        boolean paused = false;
         StringBuilder errbuf = new StringBuilder();
         int snaplen;
         int flags;  
@@ -114,9 +113,7 @@ import javafx.scene.control.TextArea;
       
                }
 
- public void pause(){
-        paused = true;
-    }
+
        @Override
     protected Task createTask() {
         return new Task() {

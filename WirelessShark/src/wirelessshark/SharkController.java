@@ -19,15 +19,10 @@ import javafx.scene.control.TextArea;
  */
 public class SharkController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+  
 public TextArea text;
   public Sniffing  s = new Sniffing();    
-     // private MyService ms = new MyService();
-    /**
-     * Initializes the controller class.
-     */
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -38,7 +33,7 @@ public TextArea text;
     } 
      @FXML
         private void Start(ActionEvent event){
-        // s.restart();
+
         s.start();
         System.out.print("loay ");
     }
