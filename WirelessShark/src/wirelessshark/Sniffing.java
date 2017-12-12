@@ -85,7 +85,7 @@ import javafx.scene.control.TextArea;
         int timeout;           
         int r = Pcap.findAllDevs(alldevs, errbuf);   
          PcapIf  device = alldevs.get(2);
-    Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errbuf);
+         Pcap pcap;
           PcapPacketHandler<String> jpacketHandler;
        public Sniffing(){
          

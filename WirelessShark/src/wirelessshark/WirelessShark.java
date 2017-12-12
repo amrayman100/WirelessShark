@@ -66,8 +66,14 @@ public class WirelessShark extends Application {
          static PcapIf  device = alldevs.get(2);
     @Override
     public void start(Stage primaryStage) throws Exception{
-        
-        
+         int i = 0; 
+         for (PcapIf device : alldevs) {  
+            String description =  
+                (device.getDescription() != null) ? device.getDescription()  
+                    : "No description available";  
+            System.out.printf("#%d: %s [%s]\n", i++, device.getName(), description);  
+        }  
+  
          Parent root = FXMLLoader.load(getClass().getResource("Shark.fxml"));
         Scene scene = new Scene(root);
         
