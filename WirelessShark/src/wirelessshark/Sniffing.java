@@ -70,15 +70,13 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 
-<<<<<<< HEAD
+
 /**
  * FXML Controller class
  *
  * 
  */
-=======
 
->>>>>>> 9bbf94d52b824b94bab13d0124353be0565f2f1c
  public class Sniffing extends Service {
   
         List<PcapIf> alldevs = new ArrayList<PcapIf>();
@@ -89,11 +87,10 @@ import javafx.scene.control.TextArea;
         int r = Pcap.findAllDevs(alldevs, errbuf);   
 
          PcapIf  device = alldevs.get(0);
-<<<<<<< HEAD
+
 
      
-=======
->>>>>>> 9bbf94d52b824b94bab13d0124353be0565f2f1c
+
          Pcap pcap;
 
           PcapPacketHandler<String> jpacketHandler;

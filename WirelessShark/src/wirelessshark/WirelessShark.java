@@ -44,13 +44,7 @@ import static org.jnetpcap.protocol.JProtocol.TCP;
 import org.jnetpcap.protocol.network.Ip4;
 import org.jnetpcap.protocol.tcpip.Http;
 
-<<<<<<< HEAD
-/**
- *
- */
-=======
 
->>>>>>> 9bbf94d52b824b94bab13d0124353be0565f2f1c
 public class WirelessShark extends Application {
     
   
