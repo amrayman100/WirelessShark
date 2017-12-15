@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;  
 import java.util.Date;  
 import java.util.List;  
+import static javafx.application.Application.launch;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
   import org.jnetpcap.Pcap;
@@ -41,21 +44,14 @@ import static org.jnetpcap.protocol.JProtocol.TCP;
 import org.jnetpcap.protocol.network.Ip4;
 import org.jnetpcap.protocol.tcpip.Http;
 
-/**
- *
- * @author Amr Ayman
- */
+
 public class WirelessShark extends Application {
     
-        public static Ip4 ip = new Ip4();
-	public static Ethernet eth = new Ethernet();
-	public static Tcp tcp = new Tcp();
-	public static Udp udp = new Udp();
-        public static Http http = new Http();
-    
+  
+    public static ObservableList <packetInfo> content=FXCollections.observableArrayList();
    
     static List<PcapIf> alldevs = new ArrayList<PcapIf>();
-         boolean cancelled = false;
+        // boolean cancelled = false;
          
         
           static StringBuilder errbuf = new StringBuilder();
@@ -63,7 +59,7 @@ public class WirelessShark extends Application {
                
         
         static int r = Pcap.findAllDevs(alldevs, errbuf);   
-         static PcapIf  device = alldevs.get(4);
+         static PcapIf  device;
     @Override
     public void start(Stage primaryStage) throws Exception{
          int i = 0; 
@@ -74,7 +70,7 @@ public class WirelessShark extends Application {
             System.out.printf("#%d: %s [%s]\n", i++, device.getName(), description);  
         }  
   
-         Parent root = FXMLLoader.load(getClass().getResource("Shark.fxml"));
+         Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(root);
         
    
