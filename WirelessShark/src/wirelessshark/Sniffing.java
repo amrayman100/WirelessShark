@@ -70,12 +70,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 
-/**
- * FXML Controller class
- *
- * @author Amr Ayman
- * 
- */
+
  public class Sniffing extends Service {
   
         List<PcapIf> alldevs = new ArrayList<PcapIf>();
