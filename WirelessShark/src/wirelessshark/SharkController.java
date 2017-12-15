@@ -12,11 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 
-/**
- * FXML Controller class
- *
- * @author Amr Ayman
- */
+
 public class SharkController implements Initializable {
 
   
