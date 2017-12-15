@@ -4,4 +4,14 @@
 
 .mainFxmlClass {
 
+  
 }
+
+
+  #title{
+
+       -fx-font: 30px Tahoma;
+    -fx-alignment: CENTER;
+ -fx-focus-color: transparent;
+   
+    }
