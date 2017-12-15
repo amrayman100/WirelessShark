@@ -79,15 +79,8 @@ import javafx.scene.control.TextArea;
         int flags;  
         int timeout;           
         int r = Pcap.findAllDevs(alldevs, errbuf);   
-<<<<<<< HEAD
-         PcapIf  device = alldevs.get(0);
-    
-
-     
-=======
 
          PcapIf  device = alldevs.get(0);
->>>>>>> f7a6cf2977807c56b7e379db03b9e8f344d6660b
          Pcap pcap;
 
           PcapPacketHandler<String> jpacketHandler;
