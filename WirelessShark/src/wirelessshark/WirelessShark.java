@@ -43,7 +43,6 @@ import org.jnetpcap.protocol.tcpip.Http;
 
 /**
  *
- * @author Amr Ayman
  */
 public class WirelessShark extends Application {
     

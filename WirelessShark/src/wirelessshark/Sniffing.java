@@ -73,7 +73,6 @@ import javafx.scene.control.TextArea;
 /**
  * FXML Controller class
  *
- * @author Amr Ayman
  * 
  */
  public class Sniffing extends Service {
@@ -84,17 +83,16 @@ import javafx.scene.control.TextArea;
         int flags;  
         int timeout;           
         int r = Pcap.findAllDevs(alldevs, errbuf);   
-<<<<<<< HEAD
+
          PcapIf  device = alldevs.get(0);
-    Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errbuf);
-=======
-         PcapIf  device = alldevs.get(2);
+
+     
          Pcap pcap;
->>>>>>> 97f661dc95c4cb08033fddefd80866b3e57d6585
+
           PcapPacketHandler<String> jpacketHandler;
        public Sniffing(){
          
-           this.errbuf = new StringBuilder(); 
+        this.errbuf = new StringBuilder(); 
         this.snaplen = 64 * 1024;           
         this.flags = Pcap.MODE_PROMISCUOUS;
         this.timeout = 10 * 1000;          
