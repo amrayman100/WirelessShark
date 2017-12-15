@@ -51,6 +51,8 @@ import java.net.URL;
 import javafx.util.Duration;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -69,14 +71,14 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
-
+import org.jnetpcap.protocol.tcpip.Http.Request;
 
 /**
  * FXML Controller class
  *
+ * @author Amr Ayman
  * 
  */
-
  public class Sniffing extends Service {
   
         List<PcapIf> alldevs = new ArrayList<PcapIf>();
@@ -84,19 +86,22 @@ import javafx.scene.control.TextArea;
         int snaplen;
         int flags;  
         int timeout;           
-        int r = Pcap.findAllDevs(alldevs, errbuf);   
+        int r = Pcap.findAllDevs(alldevs, errbuf);  
+        int count = 0;
 
          PcapIf  device = alldevs.get(0);
-
-
-     
-
          Pcap pcap;
+         public static Ip4 ip = new Ip4();
+	public static Ethernet eth = new Ethernet();
+	public static Tcp tcp = new Tcp();
+	public static Udp udp = new Udp();
+	public static Arp arp = new Arp();
+          public static Http http = new Http(); 
 
           PcapPacketHandler<String> jpacketHandler;
        public Sniffing(){
          
-        this.errbuf = new StringBuilder(); 
+           this.errbuf = new StringBuilder(); 
         this.snaplen = 64 * 1024;           
         this.flags = Pcap.MODE_PROMISCUOUS;
         this.timeout = 10 * 1000;          
@@ -108,13 +113,33 @@ import javafx.scene.control.TextArea;
         
         this.jpacketHandler = new PcapPacketHandler<String>() {
             public void nextPacket(PcapPacket packet, String user) {
-               System.out.printf("Received packet at %s caplen=%-4d len=%-4d %s\n",
-                        new Date(packet.getCaptureHeader().timestampInMillis()),
-                        packet.getCaptureHeader().caplen(),  
-                        packet.getCaptureHeader().wirelen(), 
-                        user                                 
-                );
+           
+             
+               String c = Integer.toString(count);
+               String Time = String.valueOf(packet.getCaptureHeader().timestampInMillis());
+               
+                 if(packet.hasHeader(http)){
+                 
+                      WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"HTTP",String.valueOf(packet.getCaptureHeader().wirelen()),http.fieldValue(Request.RequestUrl)));
+                      count++;
+                    
+            
+                 } 
+                 else if(packet.hasHeader(arp)){
+                     WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"ARP",String.valueOf(packet.getCaptureHeader().wirelen()),""));
+                      count++;
+                 }
+                 else if(packet.hasHeader(ip)){
+                     
+                      WirelessShark.content.add(new packetInfo(packet,c,Time, FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),ip.typeEnum().toString(),String.valueOf(packet.getCaptureHeader().wirelen()),""));
+                      count++;
+             
+            
+             
+                 }
                 
+             
+               
             }
         };
       
@@ -130,7 +155,7 @@ import javafx.scene.control.TextArea;
                     if(isCancelled()) {
                         break;
                     }
-                     System.out.println("d");
+                    
                     pcap.loop(1, jpacketHandler, "");
                 }
                 return null;
