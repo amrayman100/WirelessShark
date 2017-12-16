@@ -75,6 +75,7 @@ public class WirelessShark extends Application {
         
    
         primaryStage.setScene(scene);
+        primaryStage.resizableProperty().setValue(Boolean.FALSE);
         primaryStage.show();
     }
 
