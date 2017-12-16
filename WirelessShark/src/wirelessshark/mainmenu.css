@@ -4,14 +4,20 @@
 
 .mainFxmlClass {
 
-  
+  -fx-background-color: white;
+      
 }
 
 
   #title{
 
-       -fx-font: 30px Tahoma;
+       
     -fx-alignment: CENTER;
  -fx-focus-color: transparent;
-   
+ 
+    -fx-text-fill: grey
     }
+    
+    #AnchorPane{
+   -fx-background-image: url("back.jpg")
+}
