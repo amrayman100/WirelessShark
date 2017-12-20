@@ -105,7 +105,7 @@ public TextArea text;
         
        result.setItems(filteredData);
         
-        //s.start();
+        s.start();
      
         Start.setDisable(true);
         open.setDisable(true);
