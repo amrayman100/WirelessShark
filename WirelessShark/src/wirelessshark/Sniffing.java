@@ -75,7 +75,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import org.jnetpcap.PcapDumper;
 import org.jnetpcap.protocol.tcpip.Http.Request;
-import static wirelessshark.Dumping.DATE_FORMAT_NOW;
+//import static wirelessshark.Dumping.DATE_FORMAT_NOW;
 
 /**
  * FXML Controller class

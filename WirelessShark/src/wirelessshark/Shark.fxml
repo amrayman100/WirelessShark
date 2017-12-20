@@ -6,11 +6,19 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="715.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wirelessshark.SharkController">
+<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="715.0" prefWidth="773.0" stylesheets="@Shark.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wirelessshark.SharkController">
    <children>
-      <JFXButton layoutX="199.0" layoutY="35.0" onAction="#Start" text="Start" />
-      <JFXButton layoutX="268.0" layoutY="35.0" onAction="#Stop" text="Stop" />
+      <JFXButton fx:id="Start" layoutX="282.0" layoutY="14.0" onAction="#Start" text="Start" textFill="WHITE">
+       <font>
+            <Font name="Book Antiqua" size="18.0" />
+         </font></JFXButton>
+      <JFXButton fx:id="Stop" layoutX="365.0" layoutY="14.0" onAction="#Stop" text="Stop" textFill="WHITE">
+         <font>
+            <Font name="Book Antiqua" size="18.0" />
+         </font></JFXButton>
       <TableView fx:id="result" layoutY="122.0" onMouseClicked="#selected" prefHeight="261.0" prefWidth="782.0">
         <columns>
           <TableColumn fx:id="No" prefWidth="75.0" text="No" />
@@ -22,8 +30,21 @@
             <TableColumn fx:id="Info" prefWidth="138.0" text="Info" />
         </columns>
       </TableView>
-      <JFXTextArea fx:id="info" layoutX="3.0" layoutY="403.0" maxWidth="774.0" minWidth="507.0" prefHeight="224.0" prefWidth="774.0" />
-      <JFXTextField fx:id="filter" layoutX="23.0" layoutY="79.0" maxWidth="586.0" minWidth="556.0" onKeyTyped="#fiterDisplay" prefHeight="31.0" prefWidth="586.0" />
+      <JFXTextArea id="info" fx:id="info" layoutX="151.0" layoutY="403.0" maxWidth="774.0" minWidth="407.0" prefHeight="224.0" prefWidth="407.0" stylesheets="@Shark.css" unFocusColor="WHITE" />
+      <JFXTextField id="filter" fx:id="filter" focusColor="WHITE" layoutX="23.0" layoutY="79.0" maxWidth="586.0" minWidth="268.0" prefHeight="31.0" prefWidth="268.0" stylesheets="@Shark.css" unFocusColor="#fffefe" />
+      <Text fill="#fcfcfc" layoutX="27.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Display Filter" wrappingWidth="108.13671875">
+         <font>
+            <Font name="Book Antiqua" size="14.0" />
+         </font>
+      </Text>
+      <JFXButton fx:id="open" layoutX="450.0" layoutY="14.0" onAction="#open" prefHeight="39.0" prefWidth="149.0" text="Load Packets" textFill="#eeeded">
+         <font>
+            <Font name="Book Antiqua" size="18.0" />
+         </font></JFXButton>
+      <JFXButton layoutX="536.0" layoutY="61.0" onAction="#back" prefHeight="35.0" prefWidth="214.0" text="Return to Main Menu" textFill="WHITE">
+         <font>
+            <Font name="Book Antiqua" size="16.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>
-
