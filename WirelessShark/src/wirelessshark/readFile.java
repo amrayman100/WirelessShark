@@ -3,9 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package wirelessshark;
 
-
+import javafx.concurrent.Service;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -48,8 +53,6 @@ import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import javafx.util.Duration;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -73,64 +76,31 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
-import org.jnetpcap.PcapDumper;
 import org.jnetpcap.protocol.tcpip.Http.Request;
-import static wirelessshark.Dumping.DATE_FORMAT_NOW;
+import org.jnetpcap.util.PcapPacketArrayList;
+import static wirelessshark.Sniffing.arp;
+import static wirelessshark.Sniffing.http;
+import static wirelessshark.Sniffing.ip;
 
-/**
- * FXML Controller class
- *
- * @author Amr Ayman
- * 
- */
- public class Sniffing extends Service {
-  
-        List<PcapIf> alldevs = new ArrayList<PcapIf>();
-        StringBuilder errbuf = new StringBuilder();
-        int snaplen;
-        int flags;  
-        int timeout;           
-        int r = Pcap.findAllDevs(alldevs, errbuf);  
-        public int count = 0;
-          String ofile;
-           public static final String DATE_FORMAT_NOW = "yyyyMMddHHmmss";
-   
-         String fname = "test-afs.pcap";  
-  
+import java.nio.ByteBuffer;
 
-         PcapIf  device = alldevs.get(0);
-         Pcap pcap;
-         public static Ip4 ip = new Ip4();
-	public static Ethernet eth = new Ethernet();
-	public static Tcp tcp = new Tcp();
-	public static Udp udp = new Udp();
-	public static Arp arp = new Arp();
-          public static Http http = new Http(); 
-
-          PcapPacketHandler<String> jpacketHandler;
-       public Sniffing(){
-          ofile = "SavedPackets\\SavedPackets"+Integer.toString(count)+ now() + ".pcap";
-           this.errbuf = new StringBuilder(); 
-        this.snaplen = 64 * 1024;           
-        this.flags = Pcap.MODE_PROMISCUOUS;
-        this.timeout = 10 * 1000;          
-        this.pcap = Pcap.openLive(WirelessShark.device.getName(), this.snaplen, this.flags, this.timeout, this.errbuf);
-         if (pcap == null) {
-            System.err.printf("Error while opening device for capture: " + this.errbuf.toString());
-            return;
-            
-            
-}
-          PcapDumper dumper;  
-  //System.out.println("errbuf = " + errbuf);
- //ofile = "tmp-capture-file.cap";  
- dumper = pcap.dumpOpen(ofile);
-         
-        
+public class readFile extends Service{
+   private String FileAddress = "";
+   public int count = 0;
+    Pcap pcap;
+    final StringBuilder errbuf = new StringBuilder();
+     PcapPacketHandler<String> jpacketHandler;
+   public readFile(String f){
+       this.FileAddress = f;
+       pcap = Pcap.openOffline(FileAddress, errbuf);
+       System.out.print(errbuf);
+       
+       
         this.jpacketHandler = new PcapPacketHandler<String>() {
             public void nextPacket(PcapPacket packet, String user) {
-              dumper.dump(packet.getCaptureHeader(),packet);
-             
+           
+             // System.out.print("in");
+              //System.out.println(packet.toString());
                String c = Integer.toString(count);
                String Time = String.valueOf(packet.getCaptureHeader().timestampInMillis());
                
@@ -152,7 +122,7 @@ import static wirelessshark.Dumping.DATE_FORMAT_NOW;
                       
                  }
                  else if(packet.hasHeader(ip)){
-                     
+                    
                       WirelessShark.content.add(new packetInfo(packet,c,Time, FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),ip.typeEnum().toString(),String.valueOf(packet.getCaptureHeader().wirelen()),""));
                       //WirelessShark.packets.add(packet);  
                       count++;
@@ -165,32 +135,32 @@ import static wirelessshark.Dumping.DATE_FORMAT_NOW;
                
             }
         };
-      
-               }
-
-
-       @Override
+       
+       
+       
+   }
+   
+   
+     @Override
     protected Task createTask() {
         return new Task() {
             @Override
             protected Object call() throws Exception {
-                while (true){
-                    if(isCancelled()) {
-                        break;
-                    }
+               
                     
-                    pcap.loop(1, jpacketHandler, "");
-                }
-                //count = 0;
+                    //pcap.loop(1, jpacketHandler, "");
+                    
+                    pcap.loop(Pcap.LOOP_INFINITE,jpacketHandler,"s");
+                
+                
+                       
+                        
                 return null;
             }
         };
+  
+        
 }
-    
-     public static String now() {
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_NOW);
-		return df.format(cal.getTime());
-	}
-
- }
+   
+   
+}
