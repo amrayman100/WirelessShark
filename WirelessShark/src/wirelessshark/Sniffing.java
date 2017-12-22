@@ -75,7 +75,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import org.jnetpcap.PcapDumper;
 import org.jnetpcap.protocol.tcpip.Http.Request;
-//import static wirelessshark.Dumping.DATE_FORMAT_NOW;
+import org.jnetpcap.protocol.tcpip.Http.Response;
+
 
 /**
  * FXML Controller class
@@ -136,28 +137,45 @@ import org.jnetpcap.protocol.tcpip.Http.Request;
                
                  if(packet.hasHeader(http)){
                    
+                     String info = parsehttp(packet);
                      
                       
-                   WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"HTTP",String.valueOf(packet.getCaptureHeader().wirelen()),http.fieldValue(Request.RequestUrl)));
+                   WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"HTTP",String.valueOf(packet.getCaptureHeader().wirelen()),info));
                       //WirelessShark.packets.add(packet);  
                       count++;
                     
             
                  } 
                  else if(packet.hasHeader(arp)){
-                       
-                     WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"ARP",String.valueOf(packet.getCaptureHeader().wirelen()),""));
+                       String info = "" + arp.hardwareTypeDescription();
+                     WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"ARP",String.valueOf(packet.getCaptureHeader().wirelen()),info));
                       //WirelessShark.packets.add(packet);
                      count++;
                       
                  }
+                 else if(packet.hasHeader(udp)){
+                     String info = "Source: "+udp.source()+" Dest "+udp.destination();
+                     if(udp.source()==53||udp.source()==53){
+                          WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"DNS",String.valueOf(packet.getCaptureHeader().wirelen()),info));
+                     }
+                 }
+                 
+                  else if(packet.hasHeader(udp)){
+                      packet.hasHeader(ip);
+                     if(udp.source()==443||udp.source()==443){
+                         
+                          WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"QUIC",String.valueOf(packet.getCaptureHeader().wirelen()),""));
+                     }
+                 }
                  else if(packet.hasHeader(ip)){
-                     
-                      WirelessShark.content.add(new packetInfo(packet,c,Time, FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),ip.typeEnum().toString(),String.valueOf(packet.getCaptureHeader().wirelen()),""));
+             
+                     packet.hasHeader(tcp);
+                     String info =  " Ack : " + tcp.flags_ACK() + " Syn : " + tcp.flags_SYN();
+                      WirelessShark.content.add(new packetInfo(packet,c,Time, FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),ip.typeEnum().toString(),String.valueOf(packet.getCaptureHeader().wirelen()),info));
                       //WirelessShark.packets.add(packet);  
                       count++;
              
-            
+                    
              
                  }
                 
@@ -192,5 +210,28 @@ import org.jnetpcap.protocol.tcpip.Http.Request;
 		SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_NOW);
 		return df.format(cal.getTime());
 	}
+     
+     public String parsehttp(PcapPacket packet){
+         String info = "";
+           
+                final String code = http.fieldValue(Response.ResponseCode);  
+                final String ct = http.fieldValue(Response.Content_Type);  
+                String cl = http.fieldValue(Response.Content_Length);  
+                final int payload = http.getPayloadLength();  
+         
+         packet.hasHeader(http);
+         
+          if (http.getMessageType() == Http.MessageType.RESPONSE) {  
+                     info = http.fieldValue(Response.ResponseCodeMsg)+" "+http.fieldValue(Response.ResponseCode);
+                }  
+          
+          if(http.getMessageType() == Http.MessageType.REQUEST){
+              info =  http.fieldValue(Request.RequestMethod)+" /"+http.fieldValue(Request.RequestUrl);
+          }
+  
+         
+         
+         return info;
+     }
 
  }

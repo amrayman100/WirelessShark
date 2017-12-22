@@ -105,10 +105,10 @@ public TextArea text;
         
        result.setItems(filteredData);
         
-        s.start();
+       // s.start();
      
-        Start.setDisable(true);
-        open.setDisable(true);
+       // Start.setDisable(true);
+        //open.setDisable(true);
     
     } 
      @FXML
@@ -177,8 +177,8 @@ public TextArea text;
                     r = new readFile(file.getAbsoluteFile().getAbsolutePath());
                     System.out.println(file.getAbsoluteFile());
                
-                       r.start();
-                 
+                       r.readOfflineFiles();
+                
                 }
                 
                  JFXSnackbar snack = new JFXSnackbar(pane);
@@ -189,7 +189,10 @@ public TextArea text;
        }
           @FXML
        private void back(ActionEvent event) throws Exception{
-           
+           if(s.isRunning()){
+               s.cancel();
+             s.reset();
+           }
             WirelessShark.content.clear();
               Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(root);
