@@ -55,7 +55,7 @@ public TextArea text;
  @FXML
  private AnchorPane pane = new AnchorPane();
  
- // public Dumping d = new Dumping();  
+  
      @FXML
     private TableView<packetInfo> result;
   @FXML
@@ -85,30 +85,26 @@ public TextArea text;
         
         FilteredList<packetInfo> filteredData = new FilteredList<>(WirelessShark.content, p -> true);
 
-        // 2. Set the filter Predicate whenever the filter changes.
         filter.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(person -> {
-                // If filter text is empty, display all packets.
+                
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
 
-                // Compare first name and last name of every packets with filter text.
+               
                 String lowerCaseFilter = newValue.toLowerCase();
 
                 if (person.getProtocol().getValue().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
+                    return true; 
                 } 
-                return false; // Does not match.
+                return false;
             });
         });
         
        result.setItems(filteredData);
         
-       // s.start();
-     
-       // Start.setDisable(true);
-        //open.setDisable(true);
+      
     
     } 
      @FXML
@@ -117,11 +113,11 @@ public TextArea text;
              snack.show("Packet Capturing Started",3000);
         WirelessShark.content.clear();
         s.start();
-       // d.start();
+       
         Start.setDisable(true);
         open.setDisable(true);
         s.count = 0;
-       // d.count++;
+       
         
        
          
@@ -146,8 +142,7 @@ public TextArea text;
      
              s.cancel();
              s.reset();
-            // d.cancel();
-            // d.reset();
+          
             System.out.println("Paused");
            Start.setDisable(false);
            open.setDisable(false);
@@ -172,12 +167,12 @@ public TextArea text;
                   //FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter( "CAP","*.cap");
                   //fileChooser.getExtensionFilters().add(extFilter);
                 if(file == null){
-                   // labelSelectedDirectory.setText("No Directory selected");
+                  
                 }else{
                     r = new readFile(file.getAbsoluteFile().getAbsolutePath());
                     System.out.println(file.getAbsoluteFile());
                
-                       r.readOfflineFiles();
+                       r.loadfile();
                 
                 }
                 

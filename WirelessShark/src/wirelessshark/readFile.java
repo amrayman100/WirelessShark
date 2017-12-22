@@ -77,8 +77,7 @@ public class readFile extends Service{
         this.jpacketHandler = new PcapPacketHandler<String>() {
             public void nextPacket(PcapPacket packet, String user) {
            
-             // System.out.print("in");
-              //System.out.println(packet.toString());
+           
                String c = Integer.toString(count);
                String Time = String.valueOf(packet.getCaptureHeader().timestampInMillis());
                
@@ -88,7 +87,7 @@ public class readFile extends Service{
                      
                       
                    WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"HTTP",String.valueOf(packet.getCaptureHeader().wirelen()),info));
-                      //WirelessShark.packets.add(packet);  
+                    
                       count++;
                     
             
@@ -96,7 +95,7 @@ public class readFile extends Service{
                  else if(packet.hasHeader(arp)){
                        String info = "" + arp.hardwareTypeDescription();
                      WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"ARP",String.valueOf(packet.getCaptureHeader().wirelen()),info));
-                      //WirelessShark.packets.add(packet);
+                 
                      count++;
                       
                  }
@@ -105,6 +104,7 @@ public class readFile extends Service{
                      if(udp.source()==53||udp.source()==53){
                           WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"DNS",String.valueOf(packet.getCaptureHeader().wirelen()),info));
                      }
+                     
                  }
                  
                   else if(packet.hasHeader(udp)){
@@ -119,7 +119,7 @@ public class readFile extends Service{
                      packet.hasHeader(tcp);
                      String info =  " Ack : " + tcp.flags_ACK() + " Syn : " + tcp.flags_SYN();
                       WirelessShark.content.add(new packetInfo(packet,c,Time, FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),ip.typeEnum().toString(),String.valueOf(packet.getCaptureHeader().wirelen()),info));
-                      //WirelessShark.packets.add(packet);  
+                      
                       count++;
              
                     
@@ -134,18 +134,17 @@ public class readFile extends Service{
        
    }
    
-   public void readOfflineFiles() {
-         final StringBuilder errbuf = new StringBuilder(); // For any error msgs
-        //Second ,open up the selected file using openOffline call
+   public void loadfile() {
+         final StringBuilder errbuf = new StringBuilder(); 
         Pcap pcap = Pcap.openOffline(FileAddress, errbuf);
-        //Throw exception if it cannot open the file
+        
         if (pcap == null) {
             
         }
-        //Next, we create a packet handler which will receive packets from the libpcap loop.
+     
         PcapPacketHandler<PcapPacketArrayList> jpacketHandler = new PcapPacketHandler<PcapPacketArrayList>() {
             public void nextPacket(PcapPacket packet, PcapPacketArrayList PaketsList) {
-//                PaketsList.add(packet);
+              
                 String c = Integer.toString(count);
                String Time = String.valueOf(packet.getCaptureHeader().timestampInMillis());
                
@@ -155,15 +154,15 @@ public class readFile extends Service{
                      
                       
                    WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"HTTP",String.valueOf(packet.getCaptureHeader().wirelen()),info));
-                      //WirelessShark.packets.add(packet);  
+                      
                       count++;
                     
             
                  } 
                  else if(packet.hasHeader(arp)){
-                       String info = "" + arp.hardwareTypeDescription();
+                       String info = "";
                      WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"ARP",String.valueOf(packet.getCaptureHeader().wirelen()),info));
-                      //WirelessShark.packets.add(packet);
+                      
                      count++;
                       
                  }
@@ -172,21 +171,19 @@ public class readFile extends Service{
                      if(udp.source()==53||udp.source()==53){
                           WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"DNS",String.valueOf(packet.getCaptureHeader().wirelen()),info));
                      }
-                 }
-                 
-                  else if(packet.hasHeader(udp)){
-                      packet.hasHeader(ip);
-                     if(udp.source()==443||udp.source()==443){
+                      if(udp.source()==443||udp.source()==443){
                          
-                          WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"QUIC",String.valueOf(packet.getCaptureHeader().wirelen()),""));
+                          WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"QUIC",String.valueOf(packet.getCaptureHeader().wirelen()),info));
                      }
                  }
+                 
+               
                  else if(packet.hasHeader(ip)){
              
                      packet.hasHeader(tcp);
                      String info =  " Ack : " + tcp.flags_ACK() + " Syn : " + tcp.flags_SYN();
                       WirelessShark.content.add(new packetInfo(packet,c,Time, FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),ip.typeEnum().toString(),String.valueOf(packet.getCaptureHeader().wirelen()),info));
-                      //WirelessShark.packets.add(packet);  
+                       
                       count++;
              
                     
@@ -240,7 +237,7 @@ public class readFile extends Service{
             protected Object call() throws Exception {
                
                     
-                    //pcap.loop(1, jpacketHandler, "");
+                
                     
                     pcap.loop(Pcap.LOOP_INFINITE,jpacketHandler,"s");
                 

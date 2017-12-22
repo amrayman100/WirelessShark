@@ -49,9 +49,9 @@ public class MainMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
          for (PcapIf device : alldevs) {  
-            options.add(device.getDescription());
+            options.add(device.getDescription()+" "+device.getName());
         }  
-         // cover.setImage("Shark.png");
+        
      
         list.setItems(options);
     

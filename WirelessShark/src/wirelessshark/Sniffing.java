@@ -123,8 +123,7 @@ import org.jnetpcap.protocol.tcpip.Http.Response;
             
 }
           PcapDumper dumper;  
-  //System.out.println("errbuf = " + errbuf);
- //ofile = "tmp-capture-file.cap";  
+
  dumper = pcap.dumpOpen(ofile);
          
         
@@ -133,23 +132,24 @@ import org.jnetpcap.protocol.tcpip.Http.Response;
               dumper.dump(packet.getCaptureHeader(),packet);
              
                String c = Integer.toString(count);
-               String Time = String.valueOf(packet.getCaptureHeader().timestampInMillis());
-               
+              
+                Date t = new Date(packet.getCaptureHeader().timestampInMillis());
+                  String Time = String.valueOf(t);
                  if(packet.hasHeader(http)){
                    
                      String info = parsehttp(packet);
                      
-                      
+                    
                    WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"HTTP",String.valueOf(packet.getCaptureHeader().wirelen()),info));
-                      //WirelessShark.packets.add(packet);  
+                     
                       count++;
                     
             
                  } 
                  else if(packet.hasHeader(arp)){
-                       String info = "" + arp.hardwareTypeDescription();
+                       String info = "";
                      WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"ARP",String.valueOf(packet.getCaptureHeader().wirelen()),info));
-                      //WirelessShark.packets.add(packet);
+                    
                      count++;
                       
                  }
@@ -158,27 +158,27 @@ import org.jnetpcap.protocol.tcpip.Http.Response;
                      if(udp.source()==53||udp.source()==53){
                           WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"DNS",String.valueOf(packet.getCaptureHeader().wirelen()),info));
                      }
-                 }
-                 
-                  else if(packet.hasHeader(udp)){
-                      packet.hasHeader(ip);
+                     
                      if(udp.source()==443||udp.source()==443){
                          
-                          WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"QUIC",String.valueOf(packet.getCaptureHeader().wirelen()),""));
+                          WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"QUIC",String.valueOf(packet.getCaptureHeader().wirelen()),info));
                      }
+                     
                  }
+                 
+                
                  else if(packet.hasHeader(ip)){
              
                      packet.hasHeader(tcp);
                      String info =  " Ack : " + tcp.flags_ACK() + " Syn : " + tcp.flags_SYN();
                       WirelessShark.content.add(new packetInfo(packet,c,Time, FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),ip.typeEnum().toString(),String.valueOf(packet.getCaptureHeader().wirelen()),info));
-                      //WirelessShark.packets.add(packet);  
+                      
                       count++;
              
                     
              
                  }
-                
+              
              
                
             }
@@ -214,10 +214,7 @@ import org.jnetpcap.protocol.tcpip.Http.Response;
      public String parsehttp(PcapPacket packet){
          String info = "";
            
-                final String code = http.fieldValue(Response.ResponseCode);  
-                final String ct = http.fieldValue(Response.Content_Type);  
-                String cl = http.fieldValue(Response.Content_Length);  
-                final int payload = http.getPayloadLength();  
+              
          
          packet.hasHeader(http);
          

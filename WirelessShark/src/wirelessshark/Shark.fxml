@@ -22,12 +22,12 @@
       <TableView fx:id="result" layoutY="122.0" onMouseClicked="#selected" prefHeight="261.0" prefWidth="782.0">
         <columns>
           <TableColumn fx:id="No" prefWidth="75.0" text="No" />
-          <TableColumn fx:id="Time" prefWidth="75.0" text="Time" />
-            <TableColumn fx:id="Source" prefWidth="75.0" text="Source" />
-            <TableColumn fx:id="Dest" prefWidth="75.0" text="Dest" />
-            <TableColumn fx:id="Prot" prefWidth="75.0" text="Protocol" />
-            <TableColumn fx:id="Length" prefWidth="75.0" text="Length" />
-            <TableColumn fx:id="Info" prefWidth="138.0" text="Info" />
+          <TableColumn fx:id="Time" prefWidth="185.0" text="Time" />
+            <TableColumn fx:id="Source" prefWidth="74.0" text="Source" />
+            <TableColumn fx:id="Dest" prefWidth="77.0" text="Dest" />
+            <TableColumn fx:id="Prot" prefWidth="92.0" text="Protocol" />
+            <TableColumn fx:id="Length" prefWidth="117.0" text="Length" />
+            <TableColumn fx:id="Info" prefWidth="136.0" text="Info" />
         </columns>
       </TableView>
       <JFXTextArea id="info" fx:id="info" layoutX="151.0" layoutY="403.0" maxWidth="774.0" minWidth="407.0" prefHeight="224.0" prefWidth="407.0" stylesheets="@Shark.css" unFocusColor="WHITE" />
