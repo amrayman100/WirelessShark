@@ -44,7 +44,7 @@ public class MainMenuController implements Initializable {
          static int r = Pcap.findAllDevs(alldevs, errbuf);  
          ObservableList<String> options = FXCollections.observableArrayList();
         
-    
+   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
