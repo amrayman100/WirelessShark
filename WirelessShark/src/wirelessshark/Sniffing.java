@@ -157,11 +157,13 @@ import org.jnetpcap.protocol.tcpip.Http.Response;
                      String info = "Source: "+udp.source()+" Dest "+udp.destination();
                      if(udp.source()==53||udp.source()==53){
                           WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"DNS",String.valueOf(packet.getCaptureHeader().wirelen()),info));
+                          count++;
                      }
                      
                      if(udp.source()==443||udp.source()==443){
                          
                           WirelessShark.content.add(new packetInfo(packet,c,Time,FormatUtils.ip(ip.source()),FormatUtils.ip(ip.destination()),"QUIC",String.valueOf(packet.getCaptureHeader().wirelen()),info));
+                          count++;
                      }
                      
                  }
